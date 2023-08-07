@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <style>
+        .swiper {width: 800px;margin: 0;}
+        .swiper .swiper-pagination {top: auto;bottom: 0;}
+        .swiper .swiper-button-next:after, .swiper .swiper-button-prev:after {color: #fff;}
+        .swiper .swiper-link {display: block;}
+        .swiper .swiper-link > img {width: 100%;}
+    </style>
+</head>
+<body>
+<h1>메인 페이지 </h1>
+<div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+<div class="swiper">
+    <div class="swiper-wrapper">
+        <th:block th:each="banner : ${banners}" th:if="${banner.displayYn == true}">
+            <div class="swiper-slide">
+                <a th:href="@{${banner.getUrl()}}" th:target="${banner.getTarget()}" class="swiper-link">
+                    <img th:src="@{'data:image/png;base64,' + ${banner.getImageBase64()}}" th:alt="${banner.getAltText()}" />
+                </a>
+            </div>
+        </th:block>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+
+<script>
+    const swiper = new Swiper('.swiper', {
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        }
+    });
+</script>
+</body>
+</html>
